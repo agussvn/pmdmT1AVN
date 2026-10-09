@@ -1,0 +1,32 @@
+[
+    {
+        "id":"1",
+        "nombre":"FIFA 18",
+        "descripcion":"FIFA 18 es un juego de simulación futbolística desarrollado por EA Sports, enfocado en el realismo táctico, la competición online con Ultimate Team y la continuación del modo historia de Alex Hunter.",
+        "precio":29.99,
+        "categoria":"deportes",
+        "plataforma":"PS4",
+        "stock":"8",
+        "imagen":"https://m.media-amazon.com/images/I/81eh7lYFIUL._AC_SX342_SY445_QL70_ML2_.jpg"
+    },
+    {
+        "id":"2",
+        "nombre":"Fortnite Save The World",
+        "descripcion":"Fortnite: Salvar el Mundo es un juego cooperativo de construcción y defensa en el que te alías con otros jugadores para recolectar recursos y fabricar armas. Tu objetivo es construir fortificaciones y colocar trampas para defenderte de hordas de criaturas tras la desaparición del 98% de la humanidad.",
+        "precio":19.99,
+        "categoria":"survival",
+        "plataforma":"Xbox",
+        "stock":"20",
+        "imagen":"https://gex.co.uk/26413-large_default/fortnite.jpg"
+    },
+    {
+        "id":"2",
+        "nombre":"Fortnite Save The World",
+        "descripcion":"Fortnite: Salvar el Mundo es un juego cooperativo de construcción y defensa en el que te alías con otros jugadores para recolectar recursos y fabricar armas. Tu objetivo es construir fortificaciones y colocar trampas para defenderte de hordas de criaturas tras la desaparición del 98% de la humanidad.",
+        "precio":79.99,
+        "categoria":"Open-World Action-Adventure",
+        "plataforma":"PS5",
+        "stock":"100",
+        "imagen":"https://i0.wp.com/fhalcongaming.com/wp-content/uploads/2025/11/GTA6.jpg?fit=510%2C510&ssl=1"
+    }
+]
