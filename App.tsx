@@ -29,3 +29,31 @@ const imagenesLocales: Record<string, any> ={
   'tarjetaSteam50.png': require('./assets/imgProductos/tarjetaSteam50.png'),
   'tecladoApex.webp': require('./assets/imgProductos/tecladoApex.webp'),
 };
+
+interface Producto {
+  id: string;
+  nombre: string;
+  descripcion: string;
+  precio: number;
+  seccion: string;
+  categoria: string;
+  plataforma: string;
+  stock: number;
+  imagen: string;
+}
+
+interface ItemCarrito extends Producto {
+  cantidad: number;
+}
+
+export default function App(){
+  const [pantallaActual, setPantallaActual] = useState<"principal" | "detalle" | "carrito">("principal");
+  const [busqueda, setBusqueda] = useState<string>("");
+  const [productos, setProfuctos] = useState<Producto[]>(productosData);
+  const[productoSeleccionado, setProductoSeleccionado] = useState<Producto | null>(null);
+  const [carrito, setCarrido] = useState<ItemCarrito[]>([]);
+
+  const obtenerImagen = (nombreImagen: string) => {
+    return imagenesLocales[nombreImagen] || require("./assets/icon.png");
+  }
+}
