@@ -13,8 +13,11 @@ import {
   ScrollView,
 } from "react-native";
 
+//Importamos datos de productos
+
 import productosData from "./src/data/productos.json";
 
+//Mapa de imágenes locales
 const imagenesLocales: Record<string, any> ={
   'cascos.jpg': require('./assets/imgProductos/cascos.jpg'),
   'FIFA18.jpg': require('./assets/imgProductos/FIFA18.jpg'),
@@ -30,6 +33,7 @@ const imagenesLocales: Record<string, any> ={
   'tecladoApex.webp': require('./assets/imgProductos/tecladoApex.webp'),
 };
 
+//Interfaces typescript
 interface Producto {
   id: string;
   nombre: string;
@@ -46,14 +50,50 @@ interface ItemCarrito extends Producto {
   cantidad: number;
 }
 
+//App
 export default function App(){
+  //Estados
   const [pantallaActual, setPantallaActual] = useState<"principal" | "detalle" | "carrito">("principal");
   const [busqueda, setBusqueda] = useState<string>("");
-  const [productos, setProfuctos] = useState<Producto[]>(productosData);
+  const [productos, setProductos] = useState<Producto[]>(productosData);
   const[productoSeleccionado, setProductoSeleccionado] = useState<Producto | null>(null);
-  const [carrito, setCarrido] = useState<ItemCarrito[]>([]);
+  const [carrito, setCarrito] = useState<ItemCarrito[]>([]);
 
+  //Helper cargar imagen fallback
   const obtenerImagen = (nombreImagen: string) => {
     return imagenesLocales[nombreImagen] || require("./assets/icon.png");
-  }
+  };
+  //Lógica de búsqueda
+
+  const ejecutarBusqueda = () => {
+    const texto = busqueda.toLowerCase().trim();
+    if(texto === ""){
+      setProductos(productosData);
+    } else {
+      const filtrados = productosData.filter(
+        (p) =>
+          p.nombre.toLowerCase().includes(texto) ||
+          p.descripcion.toLowerCase().includes(texto) ||
+          p.plataforma.toLowerCase().includes(texto) ||
+          p.seccion.toLowerCase().includes(texto) ||
+          p.categoria.toLowerCase().includes(texto) 
+      );
+      setProductos(filtrados);
+    }
+  };
+
+  //Lógica carrito
+  const agregarAlCarrito = (producto: Producto) => {
+    setCarrito((prev) => {
+      const existe = prev.find((item) => item.id === producto.id);
+      if (existe) {
+        return prev.map((item) =>
+          item.id === producto.id ? { ...item, cantidad: item.cantidad + 1 } : item
+        );
+      }
+      return [...prev, { ...producto, cantidad: 1 }];
+    });
+    Alert.alert('¡Añadido!', `${producto.nombre} se ha añadido al carrito.`);
+
+
 }

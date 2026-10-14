@@ -8,7 +8,7 @@
     "categoria": "deportes",
     "plataforma": "PS4",
     "stock": 8,
-    "imagen": "https://m.media-amazon.com/images/I/81eh7lYFIUL._AC_SX342_SY445_QL70_ML2_.jpg"
+    "imagen": "FIFA18.jpg"
   },
   {
     "id": "2",
@@ -19,7 +19,7 @@
     "categoria": "survival",
     "plataforma": "Xbox",
     "stock": 20,
-    "imagen": "https://gex.co.uk/26413-large_default/fortnite.jpg"
+    "imagen": "fortnite.jpg"
   },
   {
     "id": "3",
@@ -30,7 +30,7 @@
     "categoria": "Open-World Action-Adventure",
     "plataforma": "PS5",
     "stock": 100,
-    "imagen": "https://i0.wp.com/fhalcongaming.com/wp-content/uploads/2025/11/GTA6.jpg?fit=510%2C510&ssl=1"
+    "imagen": "GTA6.webp"
   },
   {
     "id": "4",
@@ -41,7 +41,7 @@
     "categoria": "Shooter táctico cooperativo en tercera persona",
     "plataforma": "PS5",
     "stock": 5,
-    "imagen": "https://m.media-amazon.com/images/I/81II1ZURDRL._AC_SX342_SY445_QL70_ML2_.jpg"
+    "imagen": "Helldivers2.jpg"
   },
   {
     "id": "5",
@@ -52,7 +52,7 @@
     "categoria": "Consolas",
     "plataforma": "Hardware",
     "stock": 4,
-    "imagen": "https://movilplanet.eu/7530-large_default/sony-playstation-5-ps5-blu-ray.jpg"
+    "imagen": "PS5.jpg"
   },
   {
     "id": "6",
@@ -63,7 +63,7 @@
     "categoria": "Accesorios",
     "plataforma": "PlayStation 5 / PC",
     "stock": 15,
-    "imagen": "https://www.compraonline.alcampo.es/images-v3/37ea0506-72ec-4543-93c8-a77bb916ec12/426df9d2-cbea-4918-8c21-1cc5ba7ff8a3/1280x1280.webp"
+    "imagen": "PS5 mando.webp"
   },
   {
     "id": "7",
@@ -74,7 +74,7 @@
     "categoria": "Audio",
     "plataforma": "Multiplataforma",
     "stock": 8,
-    "imagen": "https://m.media-amazon.com/images/I/81bQEkMevBL._AC_SX679_.jpg"
+    "imagen": "cascos.jpg"
   },
   {
     "id": "8",
@@ -85,7 +85,7 @@
     "categoria": "Teclados",
     "plataforma": "PC",
     "stock": 20,
-    "imagen": "https://images.ctfassets.net/hmm5mo4qf4mf/10Ha85UPT5m40kjCWNdEfl/e02775f70a9cdbaa5cea5f93655e6ba4/apex_pro_tkl_wl_gen_3_black_img_buy_01.png__1920x1080_crop-fit_optimize_subsampling-2-3770.png?fm=webp&q=90&fit=scale&w=1920"
+    "imagen": "tecladoApex.webp"
   },
   {
     "id": "9",
@@ -96,7 +96,7 @@
     "categoria": "Consola Portátil",
     "plataforma": "Hardware",
     "stock": 6,
-    "imagen": "https://m.media-amazon.com/images/I/71eVf1+jn6L._AC_SX342_SY445_QL70_ML2_.jpg"
+    "imagen": "switch.jpg"
   },
   {
     "id": "10",
@@ -107,7 +107,7 @@
     "categoria": "Ratones",
     "plataforma": "PC",
     "stock": 18,
-    "imagen": "https://media.game.es/COVERV2/3D_L/261/261326.png"
+    "imagen": "raton g prox2.png"
   },
   {
     "id": "11",
@@ -118,7 +118,7 @@
     "categoria": "Tarjetas Prepago",
     "plataforma": "PC",
     "stock": 50,
-    "imagen": "https://www.giftcardarea.com/wp-content/uploads/2017/07/tarjeta-steam-50.png"
+    "imagen": "tarjetaSteam50.png"
   },
   {
     "id": "12",
@@ -129,6 +129,6 @@
     "categoria": "Monitores",
     "plataforma": "PC / Consolas",
     "stock": 7,
-    "imagen": "https://m.media-amazon.com/images/I/81Zt42ioCgL.jpg"
+    "imagen": "monitorSamSung.jpg"
   }
 ]
