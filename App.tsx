@@ -94,6 +94,39 @@ export default function App(){
       return [...prev, { ...producto, cantidad: 1 }];
     });
     Alert.alert('¡Añadido!', `${producto.nombre} se ha añadido al carrito.`);
+};
 
+const cambiarCantidad = (id: string, cambio: number) => {
+  setCarrito((prev)=>
+  prev.map((item) => {
+    if(item.id === id) {
+      const nuevaCantidad = item.cantidad + cambio;
+      return nuevaCantidad > 0 ? {...item, cantidad: nuevaCantidad } : item;
+    }
+    return item;
+  })
+);
+};
 
-}
+const eliminarDelCarrito = (id: string) => {
+    Alert.alert('Confirmar eliminación', '¿Seguro que deseas eliminar este producto del carrito?', [
+      { text: 'Cancelar', style: 'cancel' },
+      {
+        text: 'Eliminar',
+        style: 'destructive',
+        onPress: () => setCarrito((prev) => prev.filter((item) => item.id !== id)),
+      },
+    ]);
+  };
+
+  const vaciarCarrito = () => {
+    if(carrito.length === 0) return;
+    Alert.alert("Confirmar vaciado","Seguro que deseas vaciar todo el carrito?", [
+      { text: "Cancelar", style: "cancel"},
+      {
+        text: "Vaciar",
+        style: "destructive",
+        onPress: () => setCarrito([]),
+      },
+    ]);
+  };
