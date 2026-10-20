@@ -1,9 +1,9 @@
-import React, { useState} from "react";
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
   View,
-  Flatlist,
+  FlatList,
   TouchableOpacity,
   SafeAreaView,
   StatusBar,
@@ -11,10 +11,9 @@ import {
   Image,
   Alert,
   ScrollView,
-} from "react-native";
+} from 'react-native';
 
 //Importamos datos de productos
-
 import productosData from "./src/data/productos.json";
 
 //Mapa de imágenes locales
@@ -56,15 +55,15 @@ export default function App(){
   const [pantallaActual, setPantallaActual] = useState<"principal" | "detalle" | "carrito">("principal");
   const [busqueda, setBusqueda] = useState<string>("");
   const [productos, setProductos] = useState<Producto[]>(productosData);
-  const[productoSeleccionado, setProductoSeleccionado] = useState<Producto | null>(null);
+  const [productoSeleccionado, setProductoSeleccionado] = useState<Producto | null>(null);
   const [carrito, setCarrito] = useState<ItemCarrito[]>([]);
 
   //Helper cargar imagen fallback
   const obtenerImagen = (nombreImagen: string) => {
-    return imagenesLocales[nombreImagen] || require("./assets/icon.png");
+    return imagenesLocales[nombreImagen] || require("./assets/favicon.png");
   };
-  //Lógica de búsqueda
 
+  //Lógica de búsqueda
   const ejecutarBusqueda = () => {
     const texto = busqueda.toLowerCase().trim();
     if(texto === ""){
@@ -94,21 +93,21 @@ export default function App(){
       return [...prev, { ...producto, cantidad: 1 }];
     });
     Alert.alert('¡Añadido!', `${producto.nombre} se ha añadido al carrito.`);
-};
+  };
 
-const cambiarCantidad = (id: string, cambio: number) => {
-  setCarrito((prev)=>
-  prev.map((item) => {
-    if(item.id === id) {
-      const nuevaCantidad = item.cantidad + cambio;
-      return nuevaCantidad > 0 ? {...item, cantidad: nuevaCantidad } : item;
-    }
-    return item;
-  })
-);
-};
+  const cambiarCantidad = (id: string, cambio: number) => {
+    setCarrito((prev)=>
+      prev.map((item) => {
+        if(item.id === id) {
+          const nuevaCantidad = item.cantidad + cambio;
+          return nuevaCantidad > 0 ? {...item, cantidad: nuevaCantidad } : item;
+        }
+        return item;
+      })
+    );
+  };
 
-const eliminarDelCarrito = (id: string) => {
+  const eliminarDelCarrito = (id: string) => {
     Alert.alert('Confirmar eliminación', '¿Seguro que deseas eliminar este producto del carrito?', [
       { text: 'Cancelar', style: 'cancel' },
       {
@@ -130,3 +129,41 @@ const eliminarDelCarrito = (id: string) => {
       },
     ]);
   };
+
+  const precioTotal = carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="light-content" />
+
+      {/* CABECERA Y NAVEGACIÓN SUPERIOR */}
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => setPantallaActual('principal')}>
+          <Text style={styles.navBtn}>🎮 Neon Gaming Store</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => setPantallaActual('carrito')}>
+          <Text style={styles.navBtn}>
+            🛒 Carrito ({carrito.reduce((a, b) => a + b.cantidad, 0)})
+          </Text>
+        </TouchableOpacity>
+      </View>
+
+      {pantallaActual === 'principal' && (
+        <View style={{ flex: 1 }}>
+          <View style={styles.searchContainer}>
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Buscar (ej. juegos, consolas, PS5...)"
+              placeholderTextColor="#888"
+              value={busqueda}
+              onChangeText={setBusqueda}
+            />
+            <TouchableOpacity style={styles.searchBtn} onPress={ejecutarBusqueda}>
+              <Text style={{ color: '#fff', fontWeight: 'bold' }}>Buscar</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
+    </SafeAreaView>
+  );
+}
