@@ -139,7 +139,7 @@ export default function App(){
       {/* CABECERA Y NAVEGACIÓN SUPERIOR */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => setPantallaActual('principal')}>
-          <Text style={styles.navBtn}>🎮 Neon Gaming Store</Text>
+          <Text style={styles.navBtn}>Neon Gaming</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => setPantallaActual('carrito')}>
           <Text style={styles.navBtn}>
@@ -148,6 +148,7 @@ export default function App(){
         </TouchableOpacity>
       </View>
 
+{/* VISTA PRINCIPAL: CATÁLOGO Y BUSCADOR */}
       {pantallaActual === 'principal' && (
         <View style={{ flex: 1 }}>
           <View style={styles.searchContainer}>
@@ -162,8 +163,51 @@ export default function App(){
               <Text style={{ color: '#fff', fontWeight: 'bold' }}>Buscar</Text>
             </TouchableOpacity>
           </View>
+       <FlatList
+            data={productos}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                style={styles.card}
+                onPress={() => {
+                  setProductoSeleccionado(item);
+                  setPantallaActual('detalle');
+                }}
+              >
+                <Image source={obtenerImagen(item.imagen)} style={styles.cardImage} />
+                <View style={{ flex: 1 }}>
+                  <Text style={styles.cardTitle}>{item.nombre}</Text>
+                  <Text style={styles.badgeSeccion}>
+                    Sección: {item.seccion.toUpperCase()} • {item.plataforma}
+                  </Text>
+                  <Text style={styles.cardDesc} numberOfLines={2}>
+                    {item.descripcion}
+                  </Text>
+                  <Text style={styles.cardPrice}>{item.precio.toFixed(2)} €</Text>
+                </View>
+              </TouchableOpacity>
+            )}
+          />
         </View>
       )}
-    </SafeAreaView>
-  );
-}
+
+{/* VISTA DETALLE DEL PRODUCTO */}
+      {pantallaActual === 'detalle' && productoSeleccionado && (
+        <ScrollView style={styles.detailContainer}>
+          <Image source={obtenerImagen(productoSeleccionado.imagen)} style={styles.detailImage} />
+          <Text style={styles.detailTitle}>{productoSeleccionado.nombre}</Text>
+          <Text style={styles.detailPrice}>{productoSeleccionado.precio.toFixed(2)} €</Text>
+          <Text style={styles.detailLabel}>Sección: {productoSeleccionado.seccion.toUpperCase()}</Text>
+          <Text style={styles.detailLabel}>Categoría: {productoSeleccionado.categoria}</Text>
+          <Text style={styles.detailLabel}>Plataforma / Tipo: {productoSeleccionado.plataforma}</Text>
+          <Text style={styles.detailLabel}>Stock disponible: {productoSeleccionado.stock} unidades</Text>
+          <Text style={styles.detailDesc}>{productoSeleccionado.descripcion}</Text>
+
+          <TouchableOpacity
+            style={styles.addCartBtn}
+            onPress={() => agregarAlCarrito(productoSeleccionado)}
+          >
+            <Text style={styles.btnText}>Añadir al Carrito</Text>
+          </TouchableOpacity>
+        </ScrollView>
+      )}
