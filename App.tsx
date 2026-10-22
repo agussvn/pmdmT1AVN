@@ -211,3 +211,44 @@ export default function App(){
           </TouchableOpacity>
         </ScrollView>
       )}
+
+      {/* VISTA CARRITO */}
+      {pantallaActual === 'carrito' && (
+        <View style={{ flex: 1 }}>
+          <FlatList
+            data={carrito}
+            keyExtractor={(item) => item.id}
+            ListEmptyComponent={
+              <Text style={styles.emptyText}>El carrito está actualmente vacío.</Text>
+            }
+            renderItem={({ item }) => (
+              <View style={styles.cartItem}>
+                <Image source={obtenerImagen(item.imagen)} style={{ width: 40, height: 40, marginRight: 10, borderRadius: 4 }} />
+                <View style={{ flex: 1 }}>
+                  <Text style={styles.cardTitle}>{item.nombre}</Text>
+                  <Text style={{ color: '#a855f7', fontWeight: 'bold' }}>{(item.precio * item.cantidad).toFixed(2)} €</Text>
+                </View>
+                <View style={styles.qtyContainer}>
+                  <TouchableOpacity
+                    style={styles.qtyBtn}
+                    onPress={() => cambiarCantidad(item.id, -1)}
+                  >
+                    <Text style={{ color: '#fff' }}>-</Text>
+                  </TouchableOpacity>
+                  <Text style={{ marginHorizontal: 8, color: '#fff' }}>{item.cantidad}</Text>
+                  <TouchableOpacity
+                    style={styles.qtyBtn}
+                    onPress={() => cambiarCantidad(item.id, 1)}
+                  >
+                    <Text style={{ color: '#fff' }}>+</Text>
+                  </TouchableOpacity>
+                </View>
+                <TouchableOpacity
+                  style={styles.deleteBtn}
+                  onPress={() => eliminarDelCarrito(item.id)}
+                >
+                  <Text style={{ color: '#fff' }}>✕</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          />
