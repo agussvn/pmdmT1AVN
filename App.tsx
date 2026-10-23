@@ -252,3 +252,27 @@ export default function App(){
               </View>
             )}
           />
+          {carrito.length > 0 && (
+            <View style={styles.cartFooter}>
+              <Text style={styles.totalText}>Total a pagar: {precioTotal.toFixed(2)} €</Text>
+              <TouchableOpacity style={styles.clearBtn} onPress={vaciarCarrito}>
+                <Text style={{ color: '#fff', fontWeight: 'bold' }}>Vaciar Carrito</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+        </View>
+      )}
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: '#0f0c1b', paddingTop: 30 },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 15,
+    backgroundColor: '#1a1528',
+    borderBottomWidth: 1,
+    borderBottomColor: '#3b2d54',
+  },
