@@ -138,15 +138,20 @@ export default function App(){
 
       {/* CABECERA Y NAVEGACIÓN SUPERIOR */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => setPantallaActual('principal')}>
-          <Text style={styles.navBtn}>Neon Gaming</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => setPantallaActual('carrito')}>
-          <Text style={styles.navBtn}>
-            🛒 Carrito ({carrito.reduce((a, b) => a + b.cantidad, 0)})
-          </Text>
-        </TouchableOpacity>
-      </View>
+  <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => setPantallaActual('principal')}>
+    <Image 
+      source={require('./assets/favicon.png')} 
+      style={{ width: 28, height: 28, marginRight: 8, borderRadius: 6 }} 
+    />
+    <Text style={styles.navBtn}>Neon Gaming Store</Text>
+  </TouchableOpacity>
+
+  <TouchableOpacity onPress={() => setPantallaActual('carrito')}>
+    <Text style={styles.navBtn}>
+      🛒 Carrito ({carrito.reduce((a, b) => a + b.cantidad, 0)})
+    </Text>
+  </TouchableOpacity>
+</View>
 
 {/* VISTA PRINCIPAL: CATÁLOGO Y BUSCADOR */}
       {pantallaActual === 'principal' && (
