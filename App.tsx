@@ -13,11 +13,11 @@ import {
   ScrollView,
 } from 'react-native';
 
-//Importamos datos de productos
+// Importamos datos de productos
 import productosData from "./src/data/productos.json";
 
-//Mapa de imágenes locales
-const imagenesLocales: Record<string, any> ={
+// Mapa de imágenes locales
+const imagenesLocales: Record<string, any> = {
   'cascos.jpg': require('./assets/imgProductos/cascos.jpg'),
   'FIFA18.jpg': require('./assets/imgProductos/FIFA18.jpg'),
   'fortnite.jpg': require('./assets/imgProductos/fortnite.jpg'),
@@ -32,7 +32,7 @@ const imagenesLocales: Record<string, any> ={
   'tecladoApex.webp': require('./assets/imgProductos/tecladoApex.webp'),
 };
 
-//Interfaces typescript
+// Interfaces TypeScript
 interface Producto {
   id: string;
   nombre: string;
@@ -49,24 +49,24 @@ interface ItemCarrito extends Producto {
   cantidad: number;
 }
 
-//App
-export default function App(){
-  //Estados
+// App
+export default function App() {
+  // Estados
   const [pantallaActual, setPantallaActual] = useState<"principal" | "detalle" | "carrito">("principal");
   const [busqueda, setBusqueda] = useState<string>("");
   const [productos, setProductos] = useState<Producto[]>(productosData);
   const [productoSeleccionado, setProductoSeleccionado] = useState<Producto | null>(null);
   const [carrito, setCarrito] = useState<ItemCarrito[]>([]);
 
-  //Helper cargar imagen fallback
+  // Helper cargar imagen fallback
   const obtenerImagen = (nombreImagen: string) => {
     return imagenesLocales[nombreImagen] || require("./assets/favicon.png");
   };
 
-  //Lógica de búsqueda
+  // Lógica de búsqueda
   const ejecutarBusqueda = () => {
     const texto = busqueda.toLowerCase().trim();
-    if(texto === ""){
+    if (texto === "") {
       setProductos(productosData);
     } else {
       const filtrados = productosData.filter(
@@ -75,13 +75,13 @@ export default function App(){
           p.descripcion.toLowerCase().includes(texto) ||
           p.plataforma.toLowerCase().includes(texto) ||
           p.seccion.toLowerCase().includes(texto) ||
-          p.categoria.toLowerCase().includes(texto) 
+          p.categoria.toLowerCase().includes(texto)
       );
       setProductos(filtrados);
     }
   };
 
-  //Lógica carrito
+  // Lógica carrito
   const agregarAlCarrito = (producto: Producto) => {
     setCarrito((prev) => {
       const existe = prev.find((item) => item.id === producto.id);
@@ -96,11 +96,11 @@ export default function App(){
   };
 
   const cambiarCantidad = (id: string, cambio: number) => {
-    setCarrito((prev)=>
+    setCarrito((prev) =>
       prev.map((item) => {
-        if(item.id === id) {
+        if (item.id === id) {
           const nuevaCantidad = item.cantidad + cambio;
-          return nuevaCantidad > 0 ? {...item, cantidad: nuevaCantidad } : item;
+          return nuevaCantidad > 0 ? { ...item, cantidad: nuevaCantidad } : item;
         }
         return item;
       })
@@ -119,9 +119,9 @@ export default function App(){
   };
 
   const vaciarCarrito = () => {
-    if(carrito.length === 0) return;
-    Alert.alert("Confirmar vaciado","Seguro que deseas vaciar todo el carrito?", [
-      { text: "Cancelar", style: "cancel"},
+    if (carrito.length === 0) return;
+    Alert.alert("Confirmar vaciado", "Seguro que deseas vaciar todo el carrito?", [
+      { text: "Cancelar", style: "cancel" },
       {
         text: "Vaciar",
         style: "destructive",
@@ -138,22 +138,22 @@ export default function App(){
 
       {/* CABECERA Y NAVEGACIÓN SUPERIOR */}
       <View style={styles.header}>
-  <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => setPantallaActual('principal')}>
-    <Image 
-      source={require('./assets/favicon.png')} 
-      style={{ width: 28, height: 28, marginRight: 8, borderRadius: 6 }} 
-    />
-    <Text style={styles.navBtn}>Neon Gaming Store</Text>
-  </TouchableOpacity>
+        <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => setPantallaActual('principal')}>
+          <Image 
+            source={require('./assets/favicon.png')} 
+            style={{ width: 28, height: 28, marginRight: 8, borderRadius: 6 }} 
+          />
+          <Text style={styles.navBtn}>Neon Gaming Store</Text>
+        </TouchableOpacity>
 
-  <TouchableOpacity onPress={() => setPantallaActual('carrito')}>
-    <Text style={styles.navBtn}>
-      🛒 Carrito ({carrito.reduce((a, b) => a + b.cantidad, 0)})
-    </Text>
-  </TouchableOpacity>
-</View>
+        <TouchableOpacity onPress={() => setPantallaActual('carrito')}>
+          <Text style={styles.navBtn}>
+            🛒 Carrito ({carrito.reduce((a, b) => a + b.cantidad, 0)})
+          </Text>
+        </TouchableOpacity>
+      </View>
 
-{/* VISTA PRINCIPAL: CATÁLOGO Y BUSCADOR */}
+      {/* VISTA PRINCIPAL: CATÁLOGO Y BUSCADOR */}
       {pantallaActual === 'principal' && (
         <View style={{ flex: 1 }}>
           <View style={styles.searchContainer}>
@@ -168,7 +168,8 @@ export default function App(){
               <Text style={{ color: '#fff', fontWeight: 'bold' }}>Buscar</Text>
             </TouchableOpacity>
           </View>
-       <FlatList
+
+          <FlatList
             data={productos}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
@@ -189,6 +190,10 @@ export default function App(){
                     {item.descripcion}
                   </Text>
                   <Text style={styles.cardPrice}>{item.precio.toFixed(2)} €</Text>
+
+                  {item.stock <= 3 && (
+                    <Text style={styles.lowStockBadge}>⚠️ ¡Últimas {item.stock} unidades!</Text>
+                  )}
                 </View>
               </TouchableOpacity>
             )}
@@ -196,7 +201,7 @@ export default function App(){
         </View>
       )}
 
-{/* VISTA DETALLE DEL PRODUCTO */}
+      {/* VISTA DETALLE DEL PRODUCTO */}
       {pantallaActual === 'detalle' && productoSeleccionado && (
         <ScrollView style={styles.detailContainer}>
           <Image source={obtenerImagen(productoSeleccionado.imagen)} style={styles.detailImage} />
@@ -257,9 +262,27 @@ export default function App(){
               </View>
             )}
           />
+
           {carrito.length > 0 && (
             <View style={styles.cartFooter}>
-              <Text style={styles.totalText}>Total a pagar: {precioTotal.toFixed(2)} €</Text>
+              <View style={styles.summaryRow}>
+                <Text style={styles.summaryLabel}>Gastos de envío:</Text>
+                <Text style={{ color: precioTotal >= 50 ? '#22c55e' : '#f3e8ff', fontWeight: 'bold' }}>
+                  {precioTotal >= 50 ? '¡GRATIS!' : '4.99 €'}
+                </Text>
+              </View>
+
+              <Text style={styles.totalText}>
+                Total a pagar: {(precioTotal + (precioTotal >= 50 ? 0 : 4.99)).toFixed(2)} €
+              </Text>
+
+              <TouchableOpacity 
+                style={styles.checkoutBtn} 
+                onPress={() => Alert.alert('¡Pedido realizado!', 'Gracias por tu compra en Neon Gaming Store.')}
+              >
+                <Text style={styles.checkoutBtnText}>💳 PROCESAR PAGO</Text>
+              </TouchableOpacity>
+
               <TouchableOpacity style={styles.clearBtn} onPress={vaciarCarrito}>
                 <Text style={{ color: '#fff', fontWeight: 'bold' }}>Vaciar Carrito</Text>
               </TouchableOpacity>
@@ -350,4 +373,34 @@ const styles = StyleSheet.create({
   totalText: { fontSize: 18, fontWeight: 'bold', marginBottom: 10, color: '#f3e8ff' },
   clearBtn: { backgroundColor: '#dc3545', padding: 12, borderRadius: 8, alignItems: 'center' },
   emptyText: { textAlign: 'center', marginTop: 40, fontSize: 16, color: '#a799c3' },
+
+
+  lowStockBadge: { 
+    color: '#ef4444', 
+    fontSize: 11, 
+    fontWeight: 'bold', 
+    marginTop: 4 
+  },
+  summaryRow: { 
+    flexDirection: 'row', 
+    justifyContent: 'space-between', 
+    marginBottom: 8 
+  },
+  summaryLabel: { 
+    color: '#a799c3', 
+    fontSize: 14 
+  },
+  checkoutBtn: { 
+    backgroundColor: '#22c55e', 
+    padding: 14, 
+    borderRadius: 8, 
+    alignItems: 'center', 
+    marginBottom: 10, 
+    marginTop: 8 
+  },
+  checkoutBtnText: { 
+    color: '#000', 
+    fontWeight: 'bold', 
+    fontSize: 16 
+  },
 });
