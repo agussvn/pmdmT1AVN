@@ -57,6 +57,9 @@ export default function App() {
   const [productos, setProductos] = useState<Producto[]>(productosData);
   const [productoSeleccionado, setProductoSeleccionado] = useState<Producto | null>(null);
   const [carrito, setCarrito] = useState<ItemCarrito[]>([]);
+  
+  // Estado para resaltar la categoría seleccionada 
+  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState<string>("TODOS");
 
   // Helper cargar imagen fallback
   const obtenerImagen = (nombreImagen: string) => {
@@ -66,6 +69,7 @@ export default function App() {
   // Lógica de búsqueda
   const ejecutarBusqueda = () => {
     const texto = busqueda.toLowerCase().trim();
+    setCategoriaSeleccionada("TODOS");
     if (texto === "") {
       setProductos(productosData);
     } else {
@@ -169,6 +173,37 @@ export default function App() {
             </TouchableOpacity>
           </View>
 
+          {/* FILTROS RÁPIDOS POR CATEGORÍA (CHIPS)*/}
+          <View style={{ height: 42, marginBottom: 5 }}>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.categoriesContainer}>
+              {['TODOS', 'CONSOLAS', 'PERIFERICOS', 'JUEGOS', 'DIGITAL', 'ACCESORIOS'].map((cat) => (
+                <TouchableOpacity
+                  key={cat}
+                  style={[
+                    styles.chipBtn,
+                    categoriaSeleccionada === cat && styles.chipBtnActive
+                  ]}
+                  onPress={() => {
+                    setCategoriaSeleccionada(cat);
+                    setBusqueda("");
+                    if (cat === 'TODOS') {
+                      setProductos(productosData);
+                    } else {
+                      const filtrados = productosData.filter(
+                        (p) => p.seccion.toUpperCase() === cat || p.categoria.toUpperCase() === cat
+                      );
+                      setProductos(filtrados);
+                    }
+                  }}
+                >
+                  <Text style={[styles.chipText, categoriaSeleccionada === cat && styles.chipTextActive]}>
+                    {cat}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          </View>
+
           <FlatList
             data={productos}
             keyExtractor={(item) => item.id}
@@ -204,6 +239,14 @@ export default function App() {
       {/* VISTA DETALLE DEL PRODUCTO */}
       {pantallaActual === 'detalle' && productoSeleccionado && (
         <ScrollView style={styles.detailContainer}>
+          {/* BOTÓN VOLVER AL CATÁLOGO */}
+          <TouchableOpacity 
+            style={styles.backBtn} 
+            onPress={() => setPantallaActual('principal')}
+          >
+            <Text style={styles.backBtnText}>← Volver al catálogo</Text>
+          </TouchableOpacity>
+
           <Image source={obtenerImagen(productoSeleccionado.imagen)} style={styles.detailImage} />
           <Text style={styles.detailTitle}>{productoSeleccionado.nombre}</Text>
           <Text style={styles.detailPrice}>{productoSeleccionado.precio.toFixed(2)} €</Text>
@@ -374,7 +417,6 @@ const styles = StyleSheet.create({
   clearBtn: { backgroundColor: '#dc3545', padding: 12, borderRadius: 8, alignItems: 'center' },
   emptyText: { textAlign: 'center', marginTop: 40, fontSize: 16, color: '#a799c3' },
 
-
   lowStockBadge: { 
     color: '#ef4444', 
     fontSize: 11, 
@@ -403,4 +445,24 @@ const styles = StyleSheet.create({
     fontWeight: 'bold', 
     fontSize: 16 
   },
+
+  // === ESTILOS PARA EL BOTÓN VOLVER Y LOS CHIPS ===
+  backBtn: { marginBottom: 10, paddingVertical: 6 },
+  backBtnText: { color: '#c084fc', fontSize: 14, fontWeight: 'bold' },
+  categoriesContainer: { paddingHorizontal: 10, alignItems: 'center' },
+  chipBtn: { 
+    backgroundColor: '#1a1528', 
+    paddingHorizontal: 14, 
+    paddingVertical: 6, 
+    borderRadius: 20, 
+    marginRight: 8, 
+    borderWidth: 1, 
+    borderColor: '#3b2d54' 
+  },
+  chipBtnActive: { 
+    backgroundColor: '#8b5cf6', 
+    borderColor: '#c084fc' 
+  },
+  chipText: { color: '#a799c3', fontSize: 12, fontWeight: '600' },
+  chipTextActive: { color: '#fff', fontWeight: 'bold' },
 });
