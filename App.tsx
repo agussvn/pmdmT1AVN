@@ -61,6 +61,15 @@ export default function App() {
   // Estado para resaltar la categoría seleccionada 
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState<string>("TODOS");
 
+  // === AÑADIDO: ESTADO Y LÓGICA DE FAVORITOS ===
+  const [favoritos, setFavoritos] = useState<string[]>([]);
+
+  const toggleFavorito = (id: string) => {
+    setFavoritos((prev) =>
+      prev.includes(id) ? prev.filter((favId) => favId !== id) : [...prev, id]
+    );
+  };
+
   // Helper cargar imagen fallback
   const obtenerImagen = (nombreImagen: string) => {
     return imagenesLocales[nombreImagen] || require("./assets/favicon.png");
@@ -217,7 +226,16 @@ export default function App() {
               >
                 <Image source={obtenerImagen(item.imagen)} style={styles.cardImage} />
                 <View style={{ flex: 1 }}>
-                  <Text style={styles.cardTitle}>{item.nombre}</Text>
+                  {/* === AÑADIDO: TITULO + BOTÓN CORAZÓN (❤️) === */}
+                  <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Text style={[styles.cardTitle, { flex: 1 }]}>{item.nombre}</Text>
+                    <TouchableOpacity onPress={() => toggleFavorito(item.id)} style={{ paddingLeft: 6 }}>
+                      <Text style={{ fontSize: 18 }}>
+                        {favoritos.includes(item.id) ? '❤️' : '🤍'}
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+
                   <Text style={styles.badgeSeccion}>
                     Sección: {item.seccion.toUpperCase()} • {item.plataforma}
                   </Text>
@@ -248,7 +266,17 @@ export default function App() {
           </TouchableOpacity>
 
           <Image source={obtenerImagen(productoSeleccionado.imagen)} style={styles.detailImage} />
-          <Text style={styles.detailTitle}>{productoSeleccionado.nombre}</Text>
+
+          {/* === AÑADIDO: TITULO DETALLE + BOTÓN CORAZÓN (❤️) === */}
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Text style={[styles.detailTitle, { flex: 1 }]}>{productoSeleccionado.nombre}</Text>
+            <TouchableOpacity onPress={() => toggleFavorito(productoSeleccionado.id)}>
+              <Text style={{ fontSize: 24 }}>
+                {favoritos.includes(productoSeleccionado.id) ? '❤️' : '🤍'}
+              </Text>
+            </TouchableOpacity>
+          </View>
+
           <Text style={styles.detailPrice}>{productoSeleccionado.precio.toFixed(2)} €</Text>
           <Text style={styles.detailLabel}>Sección: {productoSeleccionado.seccion.toUpperCase()}</Text>
           <Text style={styles.detailLabel}>Categoría: {productoSeleccionado.categoria}</Text>
